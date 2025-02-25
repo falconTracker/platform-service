@@ -1,0 +1,349 @@
+<%- include('./side.html') %>
+<style scoped>
+	.com_top_title:after{
+		content:'';
+		display:block;
+		clear:both;
+	}
+	table.table{
+		background:#fff;
+	}
+	table.table .light_color th{
+		font-weight:400;
+	}
+	table.table tr td{
+		font-size:12px;
+		word-wrap: break-word; 
+	}
+	.common-block-style {
+		background: #fff;
+	}
+	.common-block-style .h1 {
+		font-size: 18px;
+		margin-bottom: 25px;
+		padding-bottom: 10px;
+		border-bottom: solid 1px #eee; 
+	}
+	.common-block-style .block {
+		margin-bottom: 15px;
+		font-size: 16px;
+		overflow: hidden; 
+	}
+	.common-block-style .block span {
+		display: block;
+		float: left; 
+	}
+	.common-block-style .block .t1 {
+		width: 120px; 
+	}
+	.common-block-style .block .t2 {
+		max-width: 1200px; 
+	}
+	.content{
+		overflow:hidden;
+	}
+	.content .item{
+		overflow:hidden;
+		height:60px;
+		line-height:60px;
+		font-size:14px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding-left:50px;
+	}
+	.content .item:nth-child(odd){
+		background:#f5f4ff;
+	}
+	.content .item span{
+		display:inline-block;
+		margin-right:20px;
+	}
+	.content .item .inline{
+		min-width:50px;
+		max-width:80px;
+	}
+	.content .item .enter{
+		color:red;
+		font-weight:bold;
+		font-size:16px;
+	}
+	.content .item .leave{
+		color:#ff9800;
+		font-weight:bold;
+		font-size:16px;
+	}
+	.content .item .url{
+		max-width:620px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.content .item .tingliu{
+		font-weight:bold;
+		color:#2196f3;
+	}
+	.content .item .time{
+		font-size:12px;
+		color:#999;
+		margin-left:20px;
+	}
+	@media (max-width: 768px) {
+		.content .item{
+			padding-left:5px;
+		}
+		.content .item .inline{
+			min-width:30px;
+			max-width:35px;
+			font-size: 12px;
+		}
+		.content .item span{
+			margin-right:0px;
+		}
+		.content .item .tingliu{
+			width: 80px;
+			font-size: 12px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			margin-left:5px;
+		}
+		.content .item .time{
+			margin-left:0;
+			margin-right:0;
+			width:110px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.content .item .url{
+			max-width:150px;
+		}
+	}
+
+	#code-container{
+		padding: 5px;
+		background-color: black; 
+	}
+
+	.code-line {
+    font-family: monospace;
+    white-space: pre-wrap;
+	}
+  .code-line-number {
+    color: gray;
+		width: 50px;
+		text-align: right;
+  }
+  .code-line-content {
+		color: white;
+	}
+	mark {
+    background-color: rgba(179, 209, 255, 0.7)
+  }
+
+</style>
+<style>
+	@import url('/public/css/replayer-style@2.0.0-alpha.4.css');
+</style>
+<div class="com_content_body main pb100" id="pages" v-cloak>
+	<div class="com_top_title">
+		<h1 class="com_h1 fl">错误详细信息</h1>
+		<commonsearch></commonsearch>
+	</div>
+	<div class="com_block common-block-style mt20">
+		<div class="block">
+			<span class="t1">错误url:</span>
+			<span class="t2">{{datas.resource_url}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">错误信息:</span>
+			<span class="t2 red">{{datas.msg}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">资源类型:</span>
+			<span class="t2">{{categoryMap[datas.category]}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">生成时间:</span>
+			<span class="t2">{{datas.create_time|date('/',true)}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">所属URL:</span>
+			<span class="t2">{{datas.url}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">来源城市:</span>
+			<span class="t2">{{environment.city||'未知'}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">浏览器:</span>
+			<span class="t2">{{environment.browser}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">浏览器版本:</span>
+			<span class="t2">{{environment.browser_version}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">操作系统:</span>
+			<span class="t2">{{environment.system}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">操作系统版本:</span>
+			<span class="t2">{{environment.system_version}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">IP地址:</span>
+			<span class="t2">{{environment.ip}}</span>
+		</div>
+		<div class="block" v-if="category=='resource'">
+			<span class="t1">错误资源:</span>
+			<span class="t2">{{datas.target}}</span>
+		</div>
+		<div class="block" v-if="category=='request'">
+			<span class="t1">状态码:</span>
+			<span class="t2">{{datas.status}}</span>
+		</div>
+		<div class="block" v-if="category=='request'">
+			<span class="t1">状态码描述:</span>
+			<span class="t2">{{datas.text}}</span>
+		</div>
+		<div class="block" v-if="category=='js'">
+			<span class="t1">错误行:</span>
+			<span class="t2">{{datas.line}}</span>
+		</div>
+		<div class="block" v-if="category=='js'">
+			<span class="t1">错误列:</span>
+			<span class="t2">{{datas.col}}</span>
+		</div>
+		<div class="block">
+			<span class="t1">完整URL:</span>
+			<span class="t2">{{datas.fullurl}}</span>
+		</div>
+		<div class="block" v-if="category=='request'">
+			<span class="t1">请求方式:</span>
+			<span class="t2">{{datas.method}}</span>
+		</div>
+		<div class="block" v-if="category=='request'">
+			<span class="t1">请求参数:</span>
+			<span class="t2">{{datas.params}}</span>
+		</div>
+		<div class="block" v-if="behaviorList.length != 0">
+			<span class="t1">用户轨迹:</span>
+			<div class="com_block mt30">
+				<div class="content">
+					<div class="item" v-for="(item,i) in behaviorList">
+						<span class="inline" :class="{
+							'enter':i==0?true:false,
+							'leave':i==behaviorList.length-1?true:false,
+							'online':(i!=behaviorList.length-1&&i!=0)?true:false
+						}">
+							{{i==0?'开始':''}}
+							{{i==behaviorList.length-1?'触发':''}}
+						</span>
+						<span class="data">{{item.message}}</span>
+						<span class="time">{{new Date(item.timeStamp)|date('/',true)}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="block"  v-if="category=='js'">
+			<!-- 录制的素材会包含触发错误之前的一些操作 -->
+			<span class="t1">错误回放:</span>
+			<span class="t2"><a @click="playRecorder" style="cursor: pointer;">点击播放</a></span>
+			<div class="com_block mt30" style="overflow: scroll;">
+				<div id="error_replayer_content"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="module">
+	const categoryMap = {
+		'js': 'JS错误',
+		'resource': '资源错误',
+		'request': '请求错误'
+	}
+	new Vue({
+		el: '#pages',
+		data: function () {
+			return {
+				datas: {},
+				environment:{},
+				appId: util.getStorage('local', 'appId'),
+				requestId: util.getQueryString('requestId') || '',
+				category: util.getQueryString('category') || '',
+				id: util.getQueryString('id') || '',
+				behaviorList: [],
+				player: null,
+				recordData: null,
+				categoryMap
+			}
+		},
+		filters: {
+			toFixed: window.Filter.toFixed,
+			toSize: window.Filter.toSize,
+			date: window.Filter.date,
+		},
+		mounted() {
+			this.getErrorDetail();
+			this.getPageEnvironment();
+		},
+		methods: {
+			playRecorder() {
+				if(this.player) {
+					this.player.play();
+				}
+			},
+			getErrorDetail() {
+				this.isLoadend = false;
+				util.ajax({
+					type:'get',
+					url: config.baseApi + 'error/getErrorDetail',
+					data: {
+						id:this.id,
+						appId:this.appId,
+					},
+					success: data => {
+						this.isLoadend = true;
+						this.datas = data.data;
+						const list = data.data.behavior_list ?? [];
+						this.behaviorList = list.map(item => {
+							if(item.type == 'api') {
+								item.message = '发送请求：' + item.data.href;
+							} else if(item.type === 'ui-click') {
+								item.message = '点击元素：' + item.data.chain
+							} else if(item.type === 'navigation') {
+								item.message = '从' + item.data.from + '导航至' + item.data.to;
+							} else {
+								item.message = "--"
+							}
+							return item;
+						})
+						if(data.data.screenRecords) {
+							this.recordData = data.data.screenRecords;
+							this.player = new rrwebReplay.Replayer(JSON.parse(this.recordData), {
+								root: document.getElementById('error_replayer_content'),
+								UNSAFE_replayCanvas: true,
+								unpackFn: rrwebReplay.unpack
+							})
+						}
+					}
+				})
+			},
+			getPageEnvironment() {
+				util.ajax({
+					type: 'get',
+					url: config.baseApi + 'environment/getEnvironmentForPage',
+					data: {
+						appId: this.appId,
+						requestId: this.requestId,
+					},
+					success: data => {
+						this.environment = data.data;
+					}
+				})
+			},
+		}
+	})
+</script>
