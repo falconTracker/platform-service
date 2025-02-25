@@ -1,0 +1,46 @@
+{
+  "name": "platform-service",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "dependencies": {
+    "egg": "^3.17.5",
+    "egg-mongoose": "^4.0.1",
+    "egg-redis": "^2.6.0",
+    "egg-scripts": "2",
+    "address": "^2.0.3",
+    "cron-parser": "^4.9.0",
+    "egg-router-plus": "^2.0.0",
+    "egg-view-ejs": "^3.0.0"
+  },
+  "devDependencies": {
+    "egg-bin": "6",
+    "egg-mock": "5",
+    "eslint": "8",
+    "eslint-config-egg": "13",
+    "eslint-plugin-html": "^8.1.2",
+    "lerna": "^8.1.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "npx egg-scripts start --daemon --title=platform-service",
+    "stop": "npx egg-scripts stop --title=platform-service",
+    "dev": "npx egg-bin dev",
+    "test": "npm run lint -- --fix && npm run test:local",
+    "test:local": "egg-bin test",
+    "cov": "npx egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/falconTracker/platform-service"
+  },
+  "author": "leo",
+  "license": "MIT"
+}
