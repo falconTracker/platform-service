@@ -32,11 +32,11 @@
 					<th>所属URL</th>
 					<th v-if="category=='resource'">错误资源</th>
 					<!-- <th v-if="category=='resource'">错误类型</th> -->
-					<th v-if="category=='ajax'">状态码</th>
-					<th v-if="category=='ajax'">类型详情</th>
+					<th v-if="category=='request'">状态码</th>
+					<th v-if="category=='request'">类型详情</th>
 					<th v-if="category=='js'">错误行</th>
 					<th v-if="category=='js'">错误列</th>
-					<th>请求方式</th>
+					<th v-if="category=='request'">请求方式</th>
 					<th>错误时间</th>
 					<th>操作</th>
 				</tr>
@@ -47,11 +47,11 @@
 					<td class="tc">{{item.url}}</td>
 					<td class="tc" v-if="item.category=='resource'">{{item.target}}</td>
 					<!-- <td class="tc" v-if="item.category=='resource'">{{item.type}}</td> -->
-					<td class="tc" v-if="item.category=='ajax'">{{item.status}}</td>
-					<td class="tc" v-if="item.category=='ajax'">{{item.text}}</td>
+					<td class="tc" v-if="item.category=='request'">{{item.status}}</td>
+					<td class="tc" v-if="item.category=='request'">{{item.text}}</td>
 					<td class="tc" v-if="item.category=='js'">{{item.line}}</td>
 					<td class="tc" v-if="item.category=='js'">{{item.col}}</td>
-					<td class="tc">{{item.method}}</td>
+					<td class="tc" v-if="item.category=='request'">{{item.method}}</td>
 					<td class="tc">{{item.create_time|date('/',true)}}</td>
 					<td class="tc"><a href="javascript:" @click="gotodetail(item)">详情</a></td>
 				</tr>
