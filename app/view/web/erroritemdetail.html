@@ -320,11 +320,14 @@
 						})
 						if(data.data.screenRecords) {
 							this.recordData = data.data.screenRecords;
-							this.player = new rrwebReplay.Replayer(JSON.parse(this.recordData), {
-								root: document.getElementById('error_replayer_content'),
-								UNSAFE_replayCanvas: true,
-								unpackFn: rrwebReplay.unpack
+							this.$nextTick(() => {
+							    this.player = new rrwebReplay.Replayer(JSON.parse(this.recordData), {
+								    root: document.getElementById('error_replayer_content'),
+								    UNSAFE_replayCanvas: true,
+								    unpackFn: rrwebReplay.unpack
+							    })
 							})
+							
 						}
 					}
 				})
